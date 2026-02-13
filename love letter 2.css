@@ -196,6 +196,23 @@
   animation-delay: 0.7s;
 }
 
+/* Tombol lari dengan posisi absolute dan transisi halus */
+#lari {
+  position: absolute;        /* absolute biar bisa digerakkan dengan left/top */
+  transition: all 0.3s ease; /* efek halus saat pindah posisi dan berputar */
+  cursor: pointer;
+  z-index: 1000;             /* biar di atas elemen lain */
+}
+
+/* Gaya saat tombol sudah "tertangkap" (setelah diklik) */
+#lari.tertangkap {
+  background-color: #4CAF50 !important;
+  border-color: #4CAF50 !important;
+  color: white !important;
+  transform: rotate(0deg) !important; /* reset rotasi */
+  transition: all 0.3s ease;
+}
+
 @-webkit-keyframes slideUp {
   0% {
     top: 0;
