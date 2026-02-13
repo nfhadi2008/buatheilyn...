@@ -114,7 +114,7 @@ $(document).ready(function () {
 
     // Opsional: beri alert atau redirect setelah tertangkap
     setTimeout(function () {
-      alert("Wah, kamu berhasil menangkap tombol ini! (kalo bukanya pake leptop pasti ga ketangkep)");
+      alert("Wah, kamu berhasil menangkap tombol ini! nanti ak bales di coc");
     }, 200);
   });
 
