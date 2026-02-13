@@ -18,5 +18,6 @@ $(document).ready(function () {
   }
   function close() {
     envelope.addClass("close").removeClass("open");
+    document.getElementById("pesan-rahasia").style.display = "block";
   }
 });
