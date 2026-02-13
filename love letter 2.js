@@ -22,19 +22,24 @@ $(document).ready(function () {
   }
 });
 
+// Tombol lari (menghindar)
 $("#lari").on("mouseenter", function (e) {
   var tombol = $(this);
   
-  
+  // Cek dulu apakah tombol sedang dalam mode "terkejar" (sudah diklik)
   if (tombol.hasClass("terkejar")) return;
 
+  // Ambil ukuran window dan tombol
   var windowWidth = $(window).width();
   var windowHeight = $(window).height();
   var tombolWidth = tombol.outerWidth();
   var tombolHeight = tombol.outerHeight();
 
+  // Hitung posisi maksimal agar tombol tidak keluar layar
+  var maxX = windowWidth - tombolWidth - 20; // 20px margin dari tepi
   var maxY = windowHeight - tombolHeight - 20;
 
+  // Kalau layar kecil, minimal posisi 0
   maxX = Math.max(20, maxX);
   maxY = Math.max(20, maxY);
 
@@ -76,45 +81,55 @@ $(document).ready(function () {
     return { x: randomX, y: randomY };
   }
 
+  // Event mouseenter: saat cursor memasuki tombol, tombol lari
   btn_lari.on("mouseenter", function (e) {
+    // Jika tombol sudah dalam status "tertangkap", jangan lari lagi
     if (btn_lari.hasClass("tertangkap")) return;
 
     var pos = getRandomPosition();
-    var randomRotate = Math.floor(Math.random() * 360); 
+    var randomRotate = Math.floor(Math.random() * 360); // sudut rotasi acak
+
+    // Terapkan posisi dan rotasi baru dengan transisi halus
     btn_lari.css({
       left: pos.x + "px",
       top: pos.y + "px",
       transform: "rotate(" + randomRotate + "deg)"
     });
   });
+
+  // Event click: saat tombol berhasil diklik
   btn_lari.on("click", function () {
     if (btn_lari.hasClass("tertangkap")) return;
-    
+
+    // Tandai sudah tertangkap
     btn_lari.addClass("tertangkap");
     btn_lari.text("Yah, ketangkap! 😝");
 
+    // Kembalikan posisi ke tempat semula (misalnya di samping tombol Close)
     btn_lari.css({
-      left: "",    
+      left: "",      // kosongkan agar kembali ke posisi default di flow layout
       top: "",
       transform: "rotate(0deg)"
     });
 
-    
+    // Opsional: beri alert atau redirect setelah tertangkap
     setTimeout(function () {
       alert("Wah, kamu berhasil menangkap tombol ini! (kalo bukanya pake leptop pasti ga ketangkep)");
     }, 200);
   });
 
-  
+  // Agar tombol tidak kabur saat window di-resize (opsional, agar tetap di dalam layar)
   $(window).on("resize", function () {
     if (!btn_lari.hasClass("tertangkap")) {
+      // Jika tombol belum tertangkap, pastikan posisinya masih dalam batas layar
       var currentLeft = parseInt(btn_lari.css("left"), 10);
       var currentTop = parseInt(btn_lari.css("top"), 10);
       var btnWidth = btn_lari.outerWidth();
       var btnHeight = btn_lari.outerHeight();
       var windowWidth = $(window).width();
       var windowHeight = $(window).height();
-      
+
+      // Jika posisi keluar layar, pindahkan ke posisi aman
       if (currentLeft + btnWidth > windowWidth - 20) {
         currentLeft = windowWidth - btnWidth - 20;
       }
@@ -130,7 +145,8 @@ $(document).ready(function () {
       });
     }
   });
-  
+
+  // ====== Fungsi asli untuk amplop ======
   envelope.click(function () {
     open();
   });
@@ -146,6 +162,7 @@ $(document).ready(function () {
   }
   function close() {
     envelope.addClass("close").removeClass("open");
-
+    // Jika ingin redirect, tambahkan di sini
+    // window.location.href = "https://...";
   }
 });
